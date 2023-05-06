@@ -37,15 +37,20 @@ class Play extends Phaser.Scene {
         // 🎉 let's get the PARTYcles started 🎉
         // create line on right side of screen for particles source
         let line = new Phaser.Geom.Line(w, 0, w, h);  
-        // create particle manager  
-        this.particleManager = this.add.particles('cross');
-        // add emitter and setup properties
-        this.lineEmitter = this.particleManager.createEmitter({
+        // set up particle emitter  
+        this.lineEmitter = this.add.particles(0, 0, 'cross', {
             gravityX: -200,
             lifespan: 5000,
-            alpha: { start: 0.5, end: 0.1 },
+            alpha: {
+                start: 0.5,
+                end: 0.1
+            },
             tint: [ 0xffff00, 0xff0000, 0x00ff00, 0x00ffff, 0x0000ff ],
-            emitZone: { type: 'random', source: line, quantity: 150 },
+            emitZone: { 
+                type: 'random', 
+                source: line, 
+                quantity: 150 
+            },
             blendMode: 'ADD'
         });
 
@@ -214,34 +219,32 @@ class Play extends Phaser.Scene {
             duration: 2000,
         });
 
-        // create particle explosion
-        let deathParticleManager = this.add.particles('cross');
-        let deathEmitter = deathParticleManager.createEmitter({
+        // store current paddle bounds so we can create a paddle-shaped death emitter
+        let pBounds = paddle.getBounds();
+        // set up particle emitter
+        let deathEmitter = this.add.particles(0, 0, 'cross', {
             alpha: { start: 1, end: 0 },
             scale: { start: 0.75, end: 0 },
             speed: { min: -150, max: 150 },
             lifespan: 4000,
-            blendMode: 'ADD'
-        });
-        // store current paddle bounds so we can create a paddle-shaped death emitter
-        let pBounds = paddle.getBounds();
-        deathEmitter.setEmitZone({
-            source: new Phaser.Geom.Rectangle(pBounds.x, pBounds.y, pBounds.width, pBounds.height),
-            type: 'edge',
-            quantity: 1000
+            blendMode: 'ADD',
+            emitZone: {
+                source: new Phaser.Geom.Rectangle(pBounds.x, pBounds.y, pBounds.width, pBounds.height),
+                type: 'edge',
+                quantity: 1000
+            }          
         });
         // make it boom 💥
         deathEmitter.explode(1000);
-        
-        // create two gravity wells: one offset from paddle and one at center screen
-        deathParticleManager.createGravityWell({
-            x: pBounds.centerX + 200,
+        // create two gravity wells: one offset from paddle x-position and one at center screen
+        deathEmitter.createGravityWell({
+            x: pBounds.centerX + w / 4,
             y: pBounds.centerY,
             power: 0.5,
             epsilon: 100,
             gravity: 100
         });
-        deathParticleManager.createGravityWell({
+        deathEmitter.createGravityWell({
             x: centerX,
             y: centerY,
             power: 2,
