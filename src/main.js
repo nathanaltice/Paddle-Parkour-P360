@@ -4,9 +4,10 @@
 // Barrier prefab adapted from Travis Faas, An Introduction to HTML5 Game Development with Phaser.js (2017)
 // Original: 4/20/17 (Phaser CE version)
 // Updated: 5/6/23 (Phaser 3.60)
+// Updated: 1/13/24 (Phaser 3.70)
 
 // keep me honest
-'use strict';
+'use strict'
 
 // define and configure main Phaser game object
 let config = {
@@ -31,22 +32,18 @@ let config = {
 }
 
 // uncomment the following line if you need to purge local storage data
-//localStorage.clear();
+//localStorage.clear()
 
 // define game
-let game = new Phaser.Game(config);
+let game = new Phaser.Game(config)
 
 // define globals
-let centerX = game.config.width/2;
-let centerY = game.config.height/2;
-let w = game.config.width;
-let h = game.config.height;
-const textSpacer = 64;
-let paddle = null;
-const paddleWidth = 16;
-const paddleHeight = 128;
-const paddleVelocity = 150;
-let level;
-let highScore;
-let newHighScore = false;
-let cursors;
+let centerX = game.config.width/2
+let centerY = game.config.height/2
+let w = game.config.width
+let h = game.config.height
+const textSpacer = 64
+
+let highScore
+let newHighScore = false
+let cursors
