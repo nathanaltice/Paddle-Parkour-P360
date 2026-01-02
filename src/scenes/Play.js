@@ -18,8 +18,8 @@ class Play extends Phaser.Scene {
         this.paddleDragY = 200
 
         this.level = 0
-        this.hardMODElevel = 10
-        this.extremeMODElevel = 15
+        this.hardMODElevel = 30
+        this.extremeMODElevel = 60
         this.extremeMODE = false
         this.shadowLock = false
     }
